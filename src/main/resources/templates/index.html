@@ -10,10 +10,18 @@
         <tr>
             <th>ID</th>
             <th>Description</th>
+            <th>Servings</th>
+            <th>Difficulty</th>
+            <th>Note</th>
+            <th>URL</th>
         </tr>
         <tr th:each="recipe : ${recipes}">
             <td th:text="${recipe.id}">123</td>
             <td th:text="${recipe.description}">Tasty Goodnees</td>
+            <td th:text="${recipe.servings}">4</td>
+            <td th:text="${recipe.difficulty}">easy</td>
+            <td th:text="${recipe.notes.recipeNotes}">notes</td>
+            <td th:text="${recipe.url}">url</td>
         </tr>
     </table>
 </body>
