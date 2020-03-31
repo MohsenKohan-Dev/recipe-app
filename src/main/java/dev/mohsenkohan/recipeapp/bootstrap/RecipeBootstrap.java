@@ -4,6 +4,7 @@ import dev.mohsenkohan.recipeapp.domain.*;
 import dev.mohsenkohan.recipeapp.repositories.CategoryRepository;
 import dev.mohsenkohan.recipeapp.repositories.RecipeRepository;
 import dev.mohsenkohan.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements CommandLineRunner {
 
@@ -27,6 +29,7 @@ public class RecipeBootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         recipeRepository.saveAll(createRecipes());
+        log.debug("Loading bootstrap data");
     }
 
     private List<Recipe> createRecipes() {
