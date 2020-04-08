@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -63,5 +62,18 @@ class RecipeControllerTest {
         mockMvc.perform(post("/recipe"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
+    }
+
+    @Test
+    void updateRecipe() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(3L);
+
+        when(recipeService.findById(anyLong())).thenReturn(recipe);
+
+        mockMvc.perform(get("/recipe/3/update"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
     }
 }
