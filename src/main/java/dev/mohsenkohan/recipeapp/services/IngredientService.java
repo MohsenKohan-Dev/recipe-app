@@ -6,4 +6,6 @@ import dev.mohsenkohan.recipeapp.domain.Recipe;
 public interface IngredientService {
 
     Ingredient getIngredientOfRecipe(Recipe recipe, Long id);
+
+    Ingredient save(Ingredient ingredient);
 }

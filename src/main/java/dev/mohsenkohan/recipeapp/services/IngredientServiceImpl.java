@@ -20,4 +20,9 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient getIngredientOfRecipe(Recipe recipe, Long id) {
         return ingredientRepository.findAllByRecipeAndId(recipe, id);
     }
+
+    @Override
+    public Ingredient save(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
 }
