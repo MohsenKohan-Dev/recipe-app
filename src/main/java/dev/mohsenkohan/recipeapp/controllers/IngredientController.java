@@ -54,4 +54,20 @@ public class IngredientController {
         Ingredient i = ingredientService.save(ingredient);
         return "redirect:/recipe/" + id + "/ingredient/" + i.getId() + "/show";
     }
+
+    @GetMapping("/recipe/{id}/ingredient/new")
+    public String createIngredient(@PathVariable Long id, Model model) {
+        Recipe recipe = recipeService.findById(id);
+
+        Ingredient ingredient = new Ingredient();
+        ingredient.setRecipe(recipe);
+
+        Set<UnitOfMeasure> unitOfMeasures = unitOfMeasureService.getAll();
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("uomSet", unitOfMeasures);
+
+        return "recipe/ingredient/ingredientform";
+    }
 }
