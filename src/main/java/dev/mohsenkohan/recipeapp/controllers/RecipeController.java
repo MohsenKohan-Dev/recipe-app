@@ -44,4 +44,11 @@ public class RecipeController {
         recipeService.deleteById(id);
         return "redirect:/";
     }
+
+    @GetMapping("recipe/{id}/ingredients")
+    public String showIngredients(@PathVariable Long id, Model model) {
+        Recipe recipe = recipeService.findById(id);
+        model.addAttribute("recipe", recipe);
+        return "recipe/ingredient/list";
+    }
 }
