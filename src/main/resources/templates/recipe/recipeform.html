@@ -66,9 +66,9 @@
                 <div class="col-md-3 form-group">
                   <label>Difficulty:</label>
                   <select class="form-control" th:field="*{difficulty}">
-                    <option th:each="difficultyValue : ${T(guru.springframework.domain.Difficulty).values()}"
-                            th:value="${difficultyValue.name()}"
-                            th:text="${difficultyValue.name()}"
+                    <option th:each="constant : ${recipe.difficulty.getDeclaringClass().getEnumConstants()}"
+                            th:value="${constant}"
+                            th:text="${constant}"
                     >val
                     </option>
                   </select>
