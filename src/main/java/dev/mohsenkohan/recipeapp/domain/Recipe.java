@@ -34,7 +34,7 @@ public class Recipe {
     @Lob
     private byte[] image;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Notes notes;
 
     @ManyToMany
@@ -46,8 +46,8 @@ public class Recipe {
     private Set<Category> categories = new HashSet<>();
 
     public void setNotes(Notes notes) {
-        notes.setRecipe(this);
         this.notes = notes;
+        notes.setRecipe(this);
     }
 
     public Recipe addIngredient(Ingredient ingredient) {

@@ -14,6 +14,7 @@ public class Notes {
     private Long id;
 
     @OneToOne
+    @MapsId
     private Recipe recipe;
 
     @Lob
