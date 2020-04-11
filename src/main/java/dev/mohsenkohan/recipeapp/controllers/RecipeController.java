@@ -1,6 +1,8 @@
 package dev.mohsenkohan.recipeapp.controllers;
 
+import dev.mohsenkohan.recipeapp.domain.Difficulty;
 import dev.mohsenkohan.recipeapp.domain.Recipe;
+import dev.mohsenkohan.recipeapp.services.CategoryService;
 import dev.mohsenkohan.recipeapp.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final CategoryService categoryService;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, CategoryService categoryService) {
         this.recipeService = recipeService;
+        this.categoryService = categoryService;
     }
 
     @RequestMapping(value = "/recipe/{id}/show", method = RequestMethod.GET)
@@ -24,6 +28,8 @@ public class RecipeController {
     @RequestMapping(path = "/recipe/new", method = RequestMethod.GET)
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new Recipe());
+        model.addAttribute("difficulties", Difficulty.values());
+        model.addAttribute("categories", categoryService.findAll());
         return "recipe/recipeform";
     }
 
@@ -36,6 +42,8 @@ public class RecipeController {
     @GetMapping("/recipe/{id}/update")
     public String updateRecipe(@PathVariable Long id, Model model) {
         model.addAttribute("recipe", recipeService.findById(id));
+        model.addAttribute("difficulties", Difficulty.values());
+        model.addAttribute("categories", categoryService.findAll());
         return "recipe/recipeform";
     }
 
