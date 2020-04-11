@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -37,9 +38,8 @@ public class Recipe {
     @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Notes notes;
 
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_category",
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
@@ -50,14 +50,36 @@ public class Recipe {
         notes.setRecipe(this);
     }
 
-    public Recipe addIngredient(Ingredient ingredient) {
+    public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
         ingredient.setRecipe(this);
-        return this;
     }
 
     public void removeIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
         ingredient.setRecipe(null);
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.getRecipes().add(this);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+        category.getRecipes().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(description, recipe.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description);
     }
 }
