@@ -18,7 +18,8 @@ public class Ingredient {
     private String description;
     private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "uom_id")
     private UnitOfMeasure uom;
 
     @ManyToOne
@@ -39,11 +40,11 @@ public class Ingredient {
         if (this == o) return true;
         if (!(o instanceof Ingredient)) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(description);
     }
 }
