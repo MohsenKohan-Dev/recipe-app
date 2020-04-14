@@ -49,7 +49,7 @@ public class RecipeBootstrap implements CommandLineRunner {
         Recipe guacRecipe = new Recipe();
         guacRecipe.setDescription("Perfect Guacamole");
         guacRecipe.setPrepTime(10);
-        guacRecipe.setCookTime(0);
+        guacRecipe.setCookTime(5);
         guacRecipe.setServings(4);
         guacRecipe.setDifficulty(Difficulty.EASY);
         guacRecipe.setSource("www.simplyrecipes.com");

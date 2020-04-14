@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -73,7 +74,16 @@ class RecipeControllerTest {
     void createOrUpdate() throws Exception {
         when(recipeService.save(any())).thenReturn(mockRecipe);
 
-        mockMvc.perform(post("/recipe"))
+        mockMvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("description", "description text")
+                .param("prepTime", "3")
+                .param("cookTime", "5")
+                .param("servings", "4")
+                .param("source", "source name")
+                .param("url", "http://www.site.com")
+                .param("directions", "directions text")
+        )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/1/show"));
     }
