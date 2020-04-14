@@ -2,8 +2,10 @@ package dev.mohsenkohan.recipeapp.controllers;
 
 import dev.mohsenkohan.recipeapp.domain.Difficulty;
 import dev.mohsenkohan.recipeapp.domain.Recipe;
+import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.services.CategoryService;
 import dev.mohsenkohan.recipeapp.services.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +60,11 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(id);
         model.addAttribute("recipe", recipe);
         return "recipe/ingredient/list";
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleNotFound() {
+        return "404error";
     }
 }
