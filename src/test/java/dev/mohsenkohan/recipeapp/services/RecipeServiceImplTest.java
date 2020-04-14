@@ -1,6 +1,7 @@
 package dev.mohsenkohan.recipeapp.services;
 
 import dev.mohsenkohan.recipeapp.domain.Recipe;
+import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -53,6 +53,16 @@ class RecipeServiceImplTest {
         Recipe recipe = recipeService.findById(1L);
 
         assertNotNull(recipe);
+
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void findByIdNotFound() {
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> recipeService.findById(1L));
 
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();

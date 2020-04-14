@@ -1,6 +1,7 @@
 package dev.mohsenkohan.recipeapp.controllers;
 
 import dev.mohsenkohan.recipeapp.domain.Recipe;
+import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,14 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    void showByIdNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

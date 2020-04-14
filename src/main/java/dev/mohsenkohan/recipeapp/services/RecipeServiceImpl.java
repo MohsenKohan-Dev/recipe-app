@@ -1,6 +1,7 @@
 package dev.mohsenkohan.recipeapp.services;
 
 import dev.mohsenkohan.recipeapp.domain.Recipe;
+import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long id) {
-        return recipeRepository.findById(id).orElseThrow();
+        return recipeRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Recipe Not Found!"));
     }
 
     @Override
