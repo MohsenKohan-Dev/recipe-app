@@ -104,4 +104,11 @@ class RecipeControllerTest {
                 .andExpect(view().name("recipe/ingredient/list"))
                 .andExpect(model().attributeExists("recipe"));
     }
+
+    @Test
+    void badRequestHandler() throws Exception {
+        mockMvc.perform(get("/recipe/abc/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
 }

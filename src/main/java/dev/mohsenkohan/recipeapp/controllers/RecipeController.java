@@ -5,7 +5,6 @@ import dev.mohsenkohan.recipeapp.domain.Recipe;
 import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.services.CategoryService;
 import dev.mohsenkohan.recipeapp.services.RecipeService;
-import org.dom4j.rule.Mode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +67,14 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView handleNotFound(Exception exception) {
         ModelAndView modelAndView = new ModelAndView("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ModelAndView handleBadRequest(Exception exception) {
+        ModelAndView modelAndView = new ModelAndView("400error");
         modelAndView.addObject("exception", exception);
         return modelAndView;
     }
