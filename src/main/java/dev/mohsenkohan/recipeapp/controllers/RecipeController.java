@@ -5,10 +5,12 @@ import dev.mohsenkohan.recipeapp.domain.Recipe;
 import dev.mohsenkohan.recipeapp.exceptions.NotFoundException;
 import dev.mohsenkohan.recipeapp.services.CategoryService;
 import dev.mohsenkohan.recipeapp.services.RecipeService;
+import org.dom4j.rule.Mode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class RecipeController {
@@ -64,7 +66,9 @@ public class RecipeController {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleNotFound() {
-        return "404error";
+    public ModelAndView handleNotFound(Exception exception) {
+        ModelAndView modelAndView = new ModelAndView("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
     }
 }
